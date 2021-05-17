@@ -1,0 +1,58 @@
+#include<iostream>
+#include<vector>
+#include<sstream>
+#include<fstream>
+#include<algorithm>
+#include<string>
+using namespace std;
+
+vector<string> v_txt;
+
+
+void writeTxt() {
+	ofstream fout("b.txt");
+	if (fout) {
+		for (int i = 0; i < v_txt.size(); ++i) {
+			fout << v_txt[i] << endl;
+		}
+	}
+	fout.close();
+}
+//读取文件
+void encode() {
+	ifstream infile;
+	infile.open("a.txt", std::ios::app);
+	string s;
+	cout << "请输入密码：>" << endl;
+	int pw;
+	cin >> pw;
+	while (getline(infile, s)) {
+		for (int i = 0; i < s.length(); ++i) {
+			s[i] = (char)(s[i] ^ pw);
+		}
+		v_txt.push_back(s);
+	}
+	infile.close();
+}
+void decode() {
+	ifstream infile;
+	infile.open("b.txt", std::ios::app);
+	ofstream fout("c.txt");
+
+	string s;
+	while (getline(infile, s)) {
+		for (int i = 0; i < s.length(); ++i) {
+			s[i] = (char)(s[i] ^ 3000);
+		}
+		
+		fout << s << endl;
+		cout << s << endl;
+	}
+	fout.close();
+	infile.close();
+}
+int main() {
+	encode();
+	writeTxt();
+	decode();
+}
